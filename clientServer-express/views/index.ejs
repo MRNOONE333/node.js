@@ -1,0 +1,19 @@
+<body>
+    <h1>Blog Site <%= name%> </h1>
+
+    <ul>
+        <li><a href="/">blog</a></li>
+        <li><a href="/about">about</a></li>
+        <li><a href="/blogs/create">new blog </a></li>
+    </ul>
+    <h1>index page - BLOG</h1>
+
+    <div>
+        <% if (blogs.length > 0) { %>
+            <% blogs.forEach(blog => { %>
+                <h3 class="title"><%= blog.title %></h3>
+                <p class="snippet"><%= blog.snippet %></p>
+            <% }) %>
+        <% } %>
+    </div>
+</body>

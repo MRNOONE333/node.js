@@ -29,7 +29,7 @@ app.get('/',(req,res)=>{
 
       
     //for ejs-
-    res.render('index' , {name: '-- this text is rendered through EJS --'}, blogs);
+    res.render('index' , {name: '-- this text is rendered through EJS --',blogs});
 });
 
 app.get('/about',(req,res)=>{

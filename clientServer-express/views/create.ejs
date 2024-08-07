@@ -1,23 +1,28 @@
 <body>
     <h1>Blog Site </h1>
 
-    <ul>
-        <li><a href="/">blog</a></li>
-        <li><a href="/about">about</a></li>
-        <li><a href="/blogs/create">new blog </a></li>
-    </ul>
+    <%- include('./partials/header.ejs') %>
+
+    
+    <%- include('./partials/nav.ejs') %>
+
     <h1>Create Blog  - </h1>
 
 
-    <div class="create-blog-content">
-        <form action="">
-            <label for="title">Blog title: </label>
-            <input type="text" id="title" required>
-            <label for="snippet">Blog Snippet</label>
-            <input type="text" id="snippet" required>
-            <label for="body">Blog Body: </label>
-            <textarea id="body"  required></textarea>
+    <div class="create-blog content">
+        <form>
+            <label for="title">Blog title:</label>
+            <input type="text" id="title" name="title" required>
+            <label for="snippet">Blog snippet:</label>
+            <input type="text" id="snippet" name="snippet" required>
+            <label for="body">Blog body:</label>
+            <textarea id="body" name="body" required></textarea>
             <button>Submit</button>
-        </form>
+          </form>
     </div>
+
+    <%- include('./partials/footer.ejs') %>
+
+    
 </body>
+

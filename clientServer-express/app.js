@@ -1,4 +1,5 @@
 const express = require('express');
+const morgan = require('morgan');
 
 const app = express();
 
@@ -12,6 +13,12 @@ app.set('view engine', 'ejs');
 app.listen(3000);
 
 
+// middle waer and static files (which we will make public) 
+app.use(express.static('public'));
+//can use any file which is inside the public folder- 
+// css used in - html header.ejs
+//use link to access -- http://localhost:3000/styles.css
+app.use(morgan('dev'));
 
 
 //listen for request
@@ -31,6 +38,21 @@ app.get('/',(req,res)=>{
     //for ejs-
     res.render('index' , {name: '-- this text is rendered through EJS --',blogs});
 });
+
+
+app.use((req,res , next)=>{
+    console.log("new request..");
+    console.log('host:',req.hostname);
+    console.log('path:', req.path);
+    console.log('method:', req.method);
+    next();
+});
+
+app.use((req,res , next)=>{
+    console.log('in the next middle ware ... ');
+    next();
+});
+
 
 app.get('/about',(req,res)=>{
     // res.send('<p>express</p>');
@@ -53,6 +75,7 @@ app.get('/blogs/create',(req,res)=>{
 
 
 //404
+//   .use function is used a s a middle-ware.
 // use in last of file js compiles line by line.
 app.use((req,res)=>{
     // not enough--

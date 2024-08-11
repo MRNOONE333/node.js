@@ -5,15 +5,16 @@
 
     <%- include('./partials/nav.ejs') %>
 
-
     <h1>index page - BLOG</h1>
 
     <div>
         <% if (blogs.length > 0) { %>
             <% blogs.forEach(x => { %> 
      <!--  fire a call back function for each x in blog , x:each entity. -->
-                <h3 class="title"><%= x.title %></h3>
-                <p class="snippet"><%= x.snippet %></p>
+                <a class="single" href="/blogs/<%= x._id %>">
+                    <h3 class="title"><%= x.title %></h3>
+                    <p class="snippet"><%= x.snippet %></p>
+                </a>
             <% }) %>
         <% } %>
     </div>

@@ -5,6 +5,8 @@ const app = express();
 const mongoose = require('mongoose');
 // import Blog which has blogSchema  -
 const Blog = require('./models/blog');
+const { result } = require('lodash');
+const { render } = require('ejs');
 
 // connect mongo DB-
 const dbURI = 'mongodb://user100:test100@newcluster-shard-00-00.fjctl.mongodb.net:27017,newcluster-shard-00-01.fjctl.mongodb.net:27017,newcluster-shard-00-02.fjctl.mongodb.net:27017/?ssl=true&replicaSet=atlas-1idhaz-shard-0&authSource=admin&retryWrites=true&w=majority&appName=newcluster';
@@ -24,12 +26,15 @@ app.set('view engine', 'ejs');
 app.listen(3000);
 
 
-// middle waer and static files (which we will make public) 
+// middle ware and static files (which we will make public) 
 app.use(express.static('public'));
 //can use any file which is inside the public folder- 
 // css used in - html header.ejs
 //use link to access -- http://localhost:3000/styles.css
 app.use(morgan('dev'));
+// for updation on mongo
+app.use(express.urlencoded({ extended: true }));
+
 
 
 app.get('/add-blog' , (req,res)=>{
@@ -138,11 +143,48 @@ app.get('/blogs',(req,res)=>{
         })
 });
 
+app.post('/blogs',(req,res)=>{
+    const blog= new Blog(req.body);
+
+    blog.save()
+        .then((result)=>{
+            res.redirect('/blogs');
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+});
+
 
 app.get('/blogs/create',(req,res)=>{
     res.render('create');
 });
 
+app.get('/blogs/:id',(req,res)=>{
+    const id = req.params.id;
+    
+    Blog.findById(id)
+        .then(result=>{
+            res.render('details',{blog:result})
+        }) 
+        .catch(err=>{
+            console.log(err);
+        })
+});
+
+
+
+app.delete('/blogs/:id', (req, res) => {
+    const id = req.params.id;
+    
+    Blog.findByIdAndDelete(id)
+      .then(result => {
+        res.json({ redirect: '/blogs' });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  });
 
 //404
 //   .use function is used a s a middle-ware.
